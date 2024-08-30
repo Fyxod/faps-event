@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desafio</title>
+    <link rel="stylesheet" href="styles.css">
     <link
     rel="shortcut icon"
     href="https://res.cloudinary.com/dvhwz7ptr/image/upload/f_auto,q_auto/qubw0db5njuheicndqst"
@@ -14,27 +15,10 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <style>
-    #detailsa{
-        color: blue;
-    }
-    #detailsa:hover{
-        color: red;
-    }
-    .sort:active{
-        color: rgba(0, 0, 0, 0.532)
-    }
-    .main:active{
-        background-color: rgba(0, 157, 255, 0.532)
-    }
-    .add:active{
-        background-color: rgb(131, 255, 127);
-    }
+
 </style>
 
 <body style="background-color: #121212;">
-
-
-
     <div class="container mx-auto mt-4 flex justify-between items-center px-4">
         <div class="flex space-x-4">
             <button
@@ -61,6 +45,7 @@
             </button>
         </div>
 </div>
+<div id="team-cards" class="container mx-auto mt-4 px-4 flex flex-wrap gap-4"></div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="script.js"></script>
 </body>

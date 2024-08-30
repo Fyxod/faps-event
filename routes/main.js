@@ -8,7 +8,7 @@ router.post('/teams/:hub', async (req, res) => {
     try {
         console.log(req.originalUrl);
         const { hub } = req.params;
-        const teams = await Team.find({ hub }, { name: 1 });
+        const teams = await Team.find({ hub });
         if (teams.length == 0) {
             return res.status(400).json({
                 status: "error",

@@ -1,0 +1,33 @@
+.card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+    max-width: 500px; /* Adjust max-width as needed */
+    margin: 0 auto;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-info p {
+    font-size: 1.25rem; /* Adjust font size as needed */
+    margin: 0.5rem 0;
+}
+
+#detailsa{
+    color: blue;
+}
+#detailsa:hover{
+    color: red;
+}
+.sort:active{
+    color: rgba(0, 0, 0, 0.532)
+}
+.main:active{
+    background-color: rgba(0, 157, 255, 0.532)
+}
+.add:active{
+    background-color: rgb(131, 255, 127);
+}
