@@ -1,9 +1,9 @@
-import express, { Route } from "express";
+import express from "express";
 import bcrypt from "bcrypt";
-import User from "../models/user";
-import { checkAuth } from "../middlewares/auth.js";
+import User from "../models/user.js";
+import checkAuth from "../middlewares/auth.js";
 import { userSchema, loginSchema } from "../utils/zodSchemas.js"
-import { setUser } from "../utils/jwtfun.js"
+import { setUser } from "../utils/jwtfuncs.js"
 
 const router = express.Router();
 
@@ -15,10 +15,12 @@ router.route("/register")
             const usernameExits = await User.findOne({ username })
             if (usernameExits) {
                 return res.status(400).json({
-                    message: "This user already exits"
-                })
+                    status: "error",
+                    errorCode: "USER_ALREADY_EXISTS",
+                    message: "user already exist"
+                });
             }
-            const hash = bcrypt.hash(password, 12)
+            const hash = await bcrypt.hash(password, 12)
             const user = new User({
                 username,
                 password: hash,
@@ -26,48 +28,60 @@ router.route("/register")
                 task
             });
             await user.save();
-            return res.status(200).json({
-                message: "user created successfully"
-            })
+            return res.status(201).json({
+                status: "success",
+                message: "User created successfully"
+            });
         }
         catch (err) {
             console.log(err);
-            res.json(err);
+            res.status(400).json({
+                status: "error",
+                errorCode: "INVALID_DATA",
+                message: (err.errors?.length > 0 && err.errors[0].message) ? err.errors[0].message : err.message
+            });
         }
     });
 
 
 router.route("/login")
-    .post(checkAuth, async (req, res) => {
+    .post( async (req, res) => {
         try {
-            if (req.user) {
-                return res.json({
-                    message: "User already loged in"
-                })
-            }
             const { username, password } = loginSchema.parse(req.body);
-            const user = await User.findOne(username);
+            const user = await User.findOne({ username });
             if (!user) {
                 return res.status(400).json({
+                    status: "error",
+                    errorCode: "INVALID_DATA",
                     message: "Password or username is incorrect"
                 });
             }
             const validPassword = bcrypt.compare(password, user.password);
             if (!validPassword) {
                 return res.status(400).json({
+                    status: "error",
+                    errorCode: "INVALID_DATA",
                     message: "Password or username is incorrect"
                 });
             }
             // making of token if every thing is fine
             const token = setUser({ _id: user._id });
-            return res.json({
-                message: 'Login successful',
-                token
+            return res.status(200).json({
+                status: "success",
+                message: "User logged in successfully",
+                data: {
+                    token
+                }
             });
         }
         catch (err) {
+            console.log(err);
             res.status(400).json({
-                message: "incorrect credentials"
+                status: "error",
+                errorCode: "INVALID_DATA",
+                message: (err.errors?.length > 0 && err.errors[0].message) ? err.errors[0].message : err.message
             });
         }
     });
+
+export default router;

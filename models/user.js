@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
         type: String,
         enum: [
             "admin",
-            "user"
+            "scanner"
         ],
     },
     task: {

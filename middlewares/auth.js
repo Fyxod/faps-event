@@ -1,18 +1,22 @@
-import { getUser } from '../utils/jwtfun.js';
+import { getUser } from '../utils/jwtfuncs.js';
 
-export  function checkAuth(req, res, next) {
+export default function checkAuth(req, res, next) {
 
     // search for token if and only if cookies exist
-    const token = req.cookies?.token; 
+    const token = req.headers['authorization']; 
+    console.log(token);
     if (!token) {
-        req.user = null;
         return next();
     }
 
     const user = getUser(token);
     if (!user) {
-        res.clearCookie('token');
+        return res.status(401).json({
+            status: "error",
+            errorCode: "UNAUTHORIZED",
+            message: "Unauthorized access",
+        });
     }
     req.user = user;
-    return next();
-} 
+    next();
+}
