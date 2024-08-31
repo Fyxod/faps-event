@@ -66,9 +66,9 @@ router.route('/team/:_id')
     })
     .put(checkAuth, async (req, res) => {
         try {
-            const { name } = req.params;
+            const { _id } = req.params;
             const { taskCode, taskStatus } = req.body;
-            const team = await Team.findOne({ name });
+            const team = await Team.findById(_id);
             if (!team) {
                 return res.status(400).json({
                     status: "error",
