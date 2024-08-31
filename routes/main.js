@@ -4,7 +4,7 @@ import Team from "../models/team.js";
 import User from "../models/user.js";
 const router = express.Router();
 
-router.post('/teams/:hub', async (req, res) => {
+router.post(checkAuth, '/teams/:hub', async (req, res) => {
     try {
         console.log(req.originalUrl);
         const { hub } = req.params;
@@ -34,7 +34,7 @@ router.post('/teams/:hub', async (req, res) => {
 });
 
 router.route('/team/:_id')
-    .post(async (req, res) => {
+    .post(checkAuth, async (req, res) => {
         try {
             console.log(req.originalUrl);
             const { _id } = req.params;
@@ -62,7 +62,7 @@ router.route('/team/:_id')
             })
         }
     })
-    .put(async (req, res) => {
+    .put(checkAuth, async (req, res) => {
         try {
             const { name } = req.params;
             const { taskCode, taskStatus } = req.body;
