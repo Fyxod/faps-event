@@ -66,6 +66,7 @@ router.route('/team/:_id')
     })
     .put(checkAuth, async (req, res) => {
         try {
+            console.log(req.body)
             const { _id } = req.params;
             const { taskCode, taskStatus } = req.body;
             const team = await Team.findById(_id);
