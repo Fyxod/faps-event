@@ -48,7 +48,7 @@ router.route("/login")
     .post(checkAuth, async (req, res) => {
         try {
             console.log(req.originalUrl);
-            const { username, password } = loginSchema.parse(req.body);
+            let { username, password } = loginSchema.parse(req.body);
             username = username.trim();
             const user = await User.findOne({ username });
             if (!user) {
