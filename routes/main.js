@@ -84,7 +84,11 @@ router.route('/team/:_id')
                     errorCode: "USER_NOT_FOUND",
                     message: "User not found",
                 });
+                
             }
+            console.log(user.task)
+            console.log("true or not",!(taskCode == `Desafio of task ${user.task} completed`))
+            console.log(`Desafio of task ${user.task} completed`)
             if (user.role === 'scanner') {
                 if ((!(taskCode == `Desafio of task ${user.task} completed`) && taskStatus == 'mid') || taskStatus == 'high') {
                     return res.status(403).json({
