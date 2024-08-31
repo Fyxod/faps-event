@@ -72,7 +72,8 @@ router.route("/login")
                 status: "success",
                 message: "User logged in successfully",
                 data: {
-                    token
+                    token,
+                    user: user.role
                 }
             });
         }
