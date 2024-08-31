@@ -100,8 +100,8 @@ router.route('/team/:_id')
                 if (team.tasks[user.task - 1] === "mid") {
                     return res.status(400).json({
                         status: "error",
-                        errorCode: `task_already_mid`,
-                        message: `Task already mid`
+                        errorCode: `task_already_scanned`,
+                        message: `Already Scanned`
                     })
                 }
                 team.tasks[user.task - 1] = "mid";
