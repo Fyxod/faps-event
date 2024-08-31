@@ -49,6 +49,7 @@ router.route("/login")
         try {
             console.log(req.originalUrl);
             const { username, password } = loginSchema.parse(req.body);
+            username = username.trim();
             const user = await User.findOne({ username });
             if (!user) {
                 return res.status(400).json({

@@ -4,7 +4,7 @@ export default function checkAuth(req, res, next) {
     console.log(req.originalUrl);
     // search for token if and only if cookies exist
     const token = req.headers['authorization']; 
-    console.log(token);
+    console.log("token", token);
     if (!token) {
         return next();
     }
