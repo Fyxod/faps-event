@@ -97,14 +97,14 @@ router.route('/team/:_id')
                         message: "Unauthorized access",
                     });
                 }
-                if (team.tasks[user.task - 1] === taskStatus) {
+                if (team.tasks[user.task - 1] === "mid") {
                     return res.status(400).json({
                         status: "error",
-                        errorCode: `task_already_${taskStatus}`,
-                        message: `Task already ${taskStatus}`
+                        errorCode: `task_already_mid`,
+                        message: `Task already mid`
                     })
                 }
-                team.tasks[user.task - 1] = taskStatus;
+                team.tasks[user.task - 1] = "mid";
             }
             else if (user.role === 'admin') {
                 if (team.tasks[user.task - 1] === 'taskStatus') {
