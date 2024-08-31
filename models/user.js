@@ -19,9 +19,7 @@ const userSchema = mongoose.Schema({
         ],
     },
     task: {
-        type: Number,
-        required: true,
-        
+        type: Number
     }
 });
 
