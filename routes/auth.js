@@ -47,6 +47,7 @@ router.route("/register")
 router.route("/login")
     .post(checkAuth, async (req, res) => {
         try {
+            console.log(req.originalUrl);
             const { username, password } = loginSchema.parse(req.body);
             const user = await User.findOne({ username });
             if (!user) {
