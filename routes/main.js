@@ -4,7 +4,7 @@ import Team from "../models/team.js";
 import User from "../models/user.js";
 const router = express.Router();
 
-router.post(checkAuth, '/teams/:hub', async (req, res) => {
+router.post('/teams/:hub', checkAuth, async (req, res) => {
     try {
         console.log(req.originalUrl);
         const { hub } = req.params;
