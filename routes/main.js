@@ -33,12 +33,12 @@ router.post('/teams/:hub', async (req, res) => {
     }
 });
 
-router.route('/team/:name')
+router.route('/team/:_id')
     .post(async (req, res) => {
         try {
             console.log(req.originalUrl);
-            const { name } = req.params;
-            const team = await Team.findOne({ name });
+            const { _id } = req.params;
+            const team = await Team.findById(_id);
             if (!team) {
                 return res.status(400).json({
                     status: "error",
