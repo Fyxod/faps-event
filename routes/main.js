@@ -19,7 +19,8 @@ router.post('/teams/:hub', checkAuth, async (req, res) => {
         return res.status(200).json({
             status: "success",
             data: {
-                teams
+                teams,
+                user: req.user.role
             },
             message: "Teams fetched successfully",
         })
@@ -49,7 +50,8 @@ router.route('/team/:_id')
             return res.status(200).json({
                 status: "success",
                 data: {
-                    team
+                    team,
+                    user: req.user.role
                 },
                 message: "Team fetched successfully",
             });
