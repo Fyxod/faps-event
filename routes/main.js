@@ -90,7 +90,7 @@ router.route('/team/:_id')
             console.log("true or not",!(taskCode == `Desafio of task ${user.task} completed`))
             console.log(`Desafio of task ${user.task} completed`)
             if (user.role === 'scanner') {
-                if ((!(taskCode == `Desafio of task ${user.task} completed`) && taskStatus == 'mid') || taskStatus == 'high') {
+                if ((!(taskCode == `Desafio of task ${user.task} completed`)) || taskStatus == 'high') {
                     return res.status(403).json({
                         status: "error",
                         errorCode: "ACCESS_DENIED",
