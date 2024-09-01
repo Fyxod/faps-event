@@ -69,6 +69,11 @@ router.route("/login")
                     message: "Password or username is incorrect"
                 });
             }
+            //not assigned
+            //current
+            //qr scanned
+            //clue card returned
+
             // making of token if every thing is fine
             const token = setUser({ _id: user._id });
             console.log("sending token", token)

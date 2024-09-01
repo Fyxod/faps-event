@@ -18,6 +18,7 @@ const teamSchema = new mongoose.Schema({
         type: [String],
         enum: [
             "low",
+            "current",
             "mid",
             "high"
         ],
