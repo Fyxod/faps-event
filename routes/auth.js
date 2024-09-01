@@ -45,7 +45,7 @@ router.route("/register")
 
 
 router.route("/login")
-    .post(checkAuth, async (req, res) => {
+    .post( async (req, res) => {
         try {
             console.log(req.originalUrl);
             let { username, password } = loginSchema.parse(req.body);
