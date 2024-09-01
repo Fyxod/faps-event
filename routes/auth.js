@@ -50,6 +50,8 @@ router.route("/login")
             console.log(req.originalUrl);
             let { username, password } = loginSchema.parse(req.body);
             username = username.trim();
+            console.log("username", username)
+            console.log("password", password)
             const user = await User.findOne({ username });
             if (!user) {
                 return res.status(400).json({
@@ -59,6 +61,7 @@ router.route("/login")
                 });
             }
             const validPassword = bcrypt.compare(password, user.password);
+            console.log("valid password", validPassword)
             if (!validPassword) {
                 return res.status(400).json({
                     status: "error",
@@ -68,6 +71,7 @@ router.route("/login")
             }
             // making of token if every thing is fine
             const token = setUser({ _id: user._id });
+            console.log("sending token", token)
             return res.status(200).json({
                 status: "success",
                 message: "User logged in successfully",
