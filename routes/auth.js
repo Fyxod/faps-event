@@ -60,7 +60,7 @@ router.route("/login")
                     message: "Password or username is incorrect"
                 });
             }
-            const validPassword = bcrypt.compare(password, user.password);
+            const validPassword = await bcrypt.compare(password, user.password);
             console.log("valid password", validPassword)
             if (!validPassword) {
                 return res.status(400).json({
