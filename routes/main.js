@@ -98,6 +98,13 @@ router.route('/team/:_id')
                         message: "Unauthorized access",
                     });
                 }
+                if (team.tasks[user.task - 1] === "low") {
+                    return res.status(400).json({
+                        status: "error",
+                        errorCode: `task_not_assigned`,
+                        message: `Task not assigned yet`
+                    })
+                }
                 if (team.tasks[user.task - 1] === "mid") {
                     return res.status(400).json({
                         status: "error",
