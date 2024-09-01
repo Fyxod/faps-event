@@ -78,6 +78,7 @@ router.route('/team/:_id')
                 })
             }
             const user = await User.findById(req.user._id);
+            console.log("i am printing the user here", user)
             if (!user || !user.task) {
                 return res.status(400).json({
                     status: "error",
