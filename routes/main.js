@@ -108,14 +108,14 @@ router.route('/team/:_id')
                 team.tasks[user.task - 1] = "mid";
             }
             else if (user.role === 'admin') {
-                if (team.tasks[user.task - 1] === 'taskStatus') {
+                if (team.tasks[taskCode] === taskStatus) {
                     return res.status(400).json({
                         status: "error",
                         errorCode: `task_already_${taskStatus}`,
                         message: `Task already ${taskStatus}`
                     });
                 }
-                team.tasks[user.task - 1] = taskStatus;
+                team.tasks[taskCode] = taskStatus;
             }
             await team.save();
             return res.status(200).json({
