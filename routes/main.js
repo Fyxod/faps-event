@@ -8,12 +8,17 @@ dotenv.config();
 
 router.post('/team', async (req, res) => {
     try {
+        console.log(process.env.NODE_ENV)
         if (!process.env.NODE_ENV || process.env.NODE_ENV === 'prod') {
-            return res.redirect('/404');
+            return res.status(404).json({
+                status: "error",
+                errorCode: "NOT_FOUND",
+                message: "Not found"
+            });
         }
-        const {teamName, hub} = req.body;
+        const { teamName, hub } = req.body;
         console.log(teamName, hub)
-        const team = await Team.findOne({name: teamName});
+        const team = await Team.findOne({ name: teamName });
         if (team) {
             return res.status(400).json({
                 status: "error",
@@ -122,10 +127,10 @@ router.route('/team/:_id')
                     errorCode: "USER_NOT_FOUND",
                     message: "User not found",
                 });
-                
+
             }
             console.log(user.task)
-            console.log("true or not",!(taskCode == `Desafio of task ${user.task} completed`))
+            console.log("true or not", !(taskCode == `Desafio of task ${user.task} completed`))
             console.log(`Desafio of task ${user.task} completed`)
             if (user.role === 'scanner') {
                 if ((!(taskCode == `Desafio of task ${user.task} completed`)) || taskStatus == 'high') {

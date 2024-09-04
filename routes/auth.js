@@ -11,7 +11,11 @@ router.route("/register")
     .post(async (req, res) => {
         try {
             if (!process.env.NODE_ENV || process.env.NODE_ENV === 'prod') {
-                return res.redirect('/404');
+                return res.status(404).json({
+                    status: "error",
+                    errorCode: "NOT_FOUND",
+                    message: "Not found"
+                });
             }
             const { username, password, role, task } = userSchema.parse(req.body);
             //checking if user already exist or not 
