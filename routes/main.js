@@ -2,7 +2,9 @@ import express from "express";
 import checkAuth from "../middlewares/auth.js";
 import Team from "../models/team.js";
 import User from "../models/user.js";
+import dotenv from "dotenv";
 const router = express.Router();
+dotenv.config();
 
 router.post('/team', async (req, res) => {
     try {
@@ -10,7 +12,8 @@ router.post('/team', async (req, res) => {
             return res.redirect('/404');
         }
         const {teamName, hub} = req.body;
-        const team = await Team.findOne({teamName});
+        console.log(teamName, hub)
+        const team = await Team.findOne({name: teamName});
         if (team) {
             return res.status(400).json({
                 status: "error",
@@ -18,6 +21,7 @@ router.post('/team', async (req, res) => {
                 message: "Team already exists",
             });
         }
+        console.log(team)
         const newTeam = new Team({
             name: teamName,
             hub
