@@ -19,7 +19,7 @@ router.post('/team', async (req, res) => {
             });
         }
         const newTeam = new Team({
-            teamName,
+            name: teamName,
             hub
         });
         await newTeam.save();
