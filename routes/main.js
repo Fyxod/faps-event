@@ -4,6 +4,36 @@ import Team from "../models/team.js";
 import User from "../models/user.js";
 const router = express.Router();
 
+router.post('/team', checkAuth, async (req, res) => {
+    try {
+        const {teamName, hub} = req.body;
+        const team = await Team.findOne({teamName});
+        if (team) {
+            return res.status(400).json({
+                status: "error",
+                errorCode: "TEAM_ALREADY_EXISTS",
+                message: "Team already exists",
+            });
+        }
+        const newTeam = new Team({
+            teamName,
+            hub
+        });
+        await newTeam.save();
+        return res.status(201).json({
+            status: "success",
+            message: "Team created successfully",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: "error",
+            errorCode: "INTERNAL_SERVER_ERROR",
+            message: error.message,
+        });
+    }
+});
+
 router.post('/teams/:hub', checkAuth, async (req, res) => {
     try {
         console.log(req.originalUrl);
