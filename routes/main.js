@@ -4,8 +4,11 @@ import Team from "../models/team.js";
 import User from "../models/user.js";
 const router = express.Router();
 
-router.post('/team', checkAuth, async (req, res) => {
+router.post('/team', async (req, res) => {
     try {
+        if (!process.env.NODE_ENV || process.env.NODE_ENV === 'prod') {
+            return res.redirect('/404');
+        }
         const {teamName, hub} = req.body;
         const team = await Team.findOne({teamName});
         if (team) {

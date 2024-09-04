@@ -10,6 +10,9 @@ const router = express.Router();
 router.route("/register")
     .post(async (req, res) => {
         try {
+            if (!process.env.NODE_ENV || process.env.NODE_ENV === 'prod') {
+                return res.redirect('/404');
+            }
             const { username, password, role, task } = userSchema.parse(req.body);
             //checking if user already exist or not 
             const usernameExits = await User.findOne({ username })
@@ -47,6 +50,7 @@ router.route("/register")
 router.route("/login")
     .post( async (req, res) => {
         try {
+            // updatre zod to accept spaces efbehfdkhfdhfvkhdfidfiefefehfeqhfbwi
             console.log(req.originalUrl);
             let { username, password } = loginSchema.parse(req.body);
             username = username.trim();
