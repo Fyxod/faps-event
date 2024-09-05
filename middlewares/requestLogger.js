@@ -42,6 +42,7 @@ function writeLogBatches() {
 
 export default function requestLogger(req, _, next) {
     try {
+        console.log('Request:', req.originalUrl);
         const parsedUrl = url.parse(req.originalUrl);
         const extension = path.extname(parsedUrl.pathname);
 
