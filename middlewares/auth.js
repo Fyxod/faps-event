@@ -20,6 +20,6 @@ export default async function checkAuth(req, res, next) {
         });
     }
     req.user = user;
-    console.log(req.user)
+    console.log('From:',req.user.username);
     next();
 }
