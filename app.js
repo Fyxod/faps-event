@@ -26,14 +26,14 @@ app.use(authRouter);
 app.use(mainRouter);
 
 app.use((req, res, next) => {
-    res.status(404).send(``);
-  });
-  
-  // Error-handling middleware
-  app.use((err, req, res, next) => {
+    res.status(404).send(`${req.url} does not exist!`);
+});
+
+// Error-handling middleware
+app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send("Something went wrong!");
-  });
+});
 
 app.listen(PORT, () => {
     console.log(`server started on http://localhost:${PORT}`)
