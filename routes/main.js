@@ -9,7 +9,7 @@ dotenv.config();
 router.post('/team', async (req, res) => {
     try {
         console.log(process.env.NODE_ENV)
-        if (!process.env.NODE_ENV || process.env.NODE_ENV === 'prod') {
+        if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
             return res.status(404).json({
                 status: "error",
                 errorCode: "NOT_FOUND",

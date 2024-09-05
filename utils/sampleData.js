@@ -39,4 +39,4 @@ async function deleteTeams(){
         console.log(error)
     }
 }
-addTeams();
+deleteTeams();
