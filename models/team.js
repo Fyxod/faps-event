@@ -22,7 +22,7 @@ const teamSchema = new mongoose.Schema({
             "mid",
             "high"
         ],
-        default: function() {
+        default: function () {
             return Array(15).fill("low");
         }
     }

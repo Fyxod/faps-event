@@ -1,14 +1,19 @@
 import express from "express";
+import dotenv from "dotenv";
+import path from 'path';
 import checkAuth from "../middlewares/auth.js";
 import Team from "../models/team.js";
 import User from "../models/user.js";
-import dotenv from "dotenv";
+
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const router = express.Router();
+
 dotenv.config();
 
 router.post('/team', async (req, res) => {
     try {
-        console.log(process.env.NODE_ENV)
         if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
             return res.status(404).json({
                 status: "error",
@@ -17,7 +22,6 @@ router.post('/team', async (req, res) => {
             });
         }
         const { teamName, hub } = req.body;
-        console.log(teamName, hub)
         const team = await Team.findOne({ name: teamName });
         if (team) {
             return res.status(400).json({
@@ -26,7 +30,6 @@ router.post('/team', async (req, res) => {
                 message: "Team already exists",
             });
         }
-        console.log(team)
         const newTeam = new Team({
             name: teamName,
             hub
@@ -48,7 +51,6 @@ router.post('/team', async (req, res) => {
 
 router.post('/teams/:hub', checkAuth, async (req, res) => {
     try {
-        console.log(req.originalUrl);
         const { hub } = req.params;
         const teams = await Team.find({ hub });
         if (teams.length == 0) {
@@ -79,7 +81,6 @@ router.post('/teams/:hub', checkAuth, async (req, res) => {
 router.route('/team/:_id')
     .post(checkAuth, async (req, res) => {
         try {
-            console.log(req.originalUrl);
             const { _id } = req.params;
             const team = await Team.findById(_id);
             if (!team) {
@@ -120,7 +121,6 @@ router.route('/team/:_id')
                 })
             }
             const user = await User.findById(req.user._id);
-            console.log("i am printing the user here", user)
             if (!user || (!user.task && user.role === 'scanner')) {
                 return res.status(400).json({
                     status: "error",
@@ -129,9 +129,6 @@ router.route('/team/:_id')
                 });
 
             }
-            console.log(user.task)
-            console.log("true or not", !(taskCode == `Desafio of task ${user.task} completed`))
-            console.log(`Desafio of task ${user.task} completed`)
             if (user.role === 'scanner') {
                 if ((!(taskCode == `Desafio of task ${user.task} completed`)) || taskStatus == 'high') {
                     return res.status(403).json({
@@ -180,5 +177,29 @@ router.route('/team/:_id')
             });
         }
     });
+
+router.get('/web', (_, res) => {
+    try {
+        res.sendFile(path.join(__dirname, '../public/web/index.html'));
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+router.get('/download-logs', (req, res) => {
+    try {
+        const { type } = req.query;
+        const logFilePath = path.join(path.resolve(), (type == 'all') ? 'all_requests.log' : 'filtered_requests.log');
+        res.download(logFilePath, (type == 'all') ? 'all_requests.log' : 'filtered_requests.log', (err) => {
+            if (err) {
+                console.error('Failed to send log file:', err);
+                res.status(500).send('Error downloading log file');
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error downloading log file');
+    }
+});
 
 export default router;

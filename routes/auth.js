@@ -1,7 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
-import checkAuth from "../middlewares/auth.js";
 import { userSchema, loginSchema } from "../utils/zodSchemas.js"
 import { setUser } from "../utils/jwtfuncs.js"
 
@@ -10,7 +9,7 @@ const router = express.Router();
 router.route("/register")
     .post(async (req, res) => {
         try {
-            if (!process.env.NODE_ENV || process.env.NODE_ENV === 'prod') {
+            if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
                 return res.status(404).json({
                     status: "error",
                     errorCode: "NOT_FOUND",
@@ -52,14 +51,10 @@ router.route("/register")
 
 
 router.route("/login")
-    .post( async (req, res) => {
+    .post(async (req, res) => {
         try {
-            // updatre zod to accept spaces efbehfdkhfdhfvkhdfidfiefefehfeqhfbwi
-            console.log(req.originalUrl);
             let { username, password } = loginSchema.parse(req.body);
             username = username.trim();
-            console.log("username", username)
-            console.log("password", password)
             const user = await User.findOne({ username });
             if (!user) {
                 return res.status(400).json({
@@ -69,7 +64,6 @@ router.route("/login")
                 });
             }
             const validPassword = await bcrypt.compare(password, user.password);
-            console.log("valid password", validPassword)
             if (!validPassword) {
                 return res.status(400).json({
                     status: "error",
@@ -77,14 +71,9 @@ router.route("/login")
                     message: "Password or username is incorrect"
                 });
             }
-            //not assigned
-            //current
-            //qr scanned
-            //clue card returned
 
             // making of token if every thing is fine
             const token = setUser({ _id: user._id });
-            console.log("sending token", token)
             return res.status(200).json({
                 status: "success",
                 message: "User logged in successfully",

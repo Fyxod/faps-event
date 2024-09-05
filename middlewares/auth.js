@@ -2,11 +2,8 @@ import { getUser } from '../utils/jwtfuncs.js';
 import User from '../models/user.js';
 
 export default async function checkAuth(req, res, next) {
-    console.log(req.originalUrl);
     const token = req.headers['authorization'];
-    console.log( "token", token)
     const payload = getUser(token);
-    console.log("payload",payload)
     if (!payload) {
         return res.status(401).json({
             status: "error",
@@ -15,7 +12,7 @@ export default async function checkAuth(req, res, next) {
         });
     }
     const user = await User.findById(payload._id);
-    if(!user){
+    if (!user) {
         return res.status(401).json({
             status: "error",
             errorCode: "UNAUTHORIZED",
