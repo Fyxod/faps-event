@@ -180,7 +180,7 @@ router.route('/team/:_id')
 
 router.get('/web', (_, res) => {
     try {
-        res.sendFile(path.join(__dirname, '../public/web/index.html'));
+        res.sendFile(path.join(__dirname, '../public/index.html'));
     } catch (error) {
         console.error(error);
     }
