@@ -52,9 +52,9 @@ export default function requestLogger(req, _, next) {
 
         const log = `${timestamp} | ${method} ${req.originalUrl} | ${ip}\n`;
 
-        allRequestsBatch.push(log);
+        allRequestsBatch.unshift(log);
         if (!excludedExtensions.includes(extension)) {
-            filteredRequestsBatch.push(log);
+            filteredRequestsBatch.unshift(log);
         }
 
         writeLogBatches();
