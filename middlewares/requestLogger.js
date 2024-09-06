@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import express from 'express';
 import getISTDateString from '../utils/getDate.js';
 import url from 'url';
 
